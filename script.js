@@ -11,32 +11,27 @@ function Book(name, author, pages, read) {
     this.read = read;
 }
 
-function addBookToLibrary(book) {
-    myLibrary.push(book);
-}
-
 function syncLibraryDOM() {
     bookGrid.innerHTML = "";
     let bookCard = "";
     let addBookCard = "";
     for (let book of myLibrary) {
-        bookCard = '<p class="title">'+book.name+'</p><p class="author">'+book.author+'</p><p class="pages">'+book.pages+'</p><button type="button" class="read-button">Read</button><button type="button">Remove</button>';
+        bookCard = '<p class="title">'+book.name;
+        bookCard += '</p><p class="author">By: '+book.author;
+        bookCard += '</p><p class="pages">'+book.pages + ' pages';
+        bookCard += '</p><button type="button" class="read-button'; 
+        bookCard += (book.read) ? ' is-read">Read' : ' is-unread">Unread';
+        bookCard += '</button><button type="button" class="remove-button">Remove</button>';
         addBookCard = document.createElement("div")
         addBookCard.classList.add("book-card");
-        addBookCard.setAttribute("data-index",() => myLibrary.find(book))
         addBookCard.innerHTML = bookCard;
-        console.log(bookCard);
+        addBookCard.setAttribute("data",myLibrary.indexOf(book));
         bookGrid.appendChild(addBookCard);
     }
 }
 
-console.log(myLibrary);
-
-
-
-
 addBookButton.addEventListener("click", () => {
-    console.log("Modal Opened");
+    form.reset();
     addBookDialog.showModal();
 })
 
@@ -45,20 +40,35 @@ form.addEventListener("submit", (event) => {
     let bookName = document.querySelector("#title").value;
     let bookAuthor = document.querySelector("#author").value;
     let bookPages = document.querySelector("#pages").value;
-    let bookRead = document.querySelector("#read").value;
+    let bookRead = document.querySelector("#read").checked;
     if (!bookName||!bookAuthor||!bookPages) {return;}
     let bookToAdd = new Book(bookName, bookAuthor, bookPages, bookRead);
     myLibrary.push(bookToAdd);
-    console.log(myLibrary);
     addBookDialog.close();
     syncLibraryDOM();
-    form.reset();
 })
 
 document.body.addEventListener("click", (e) => {
-    if (e.target.classList.includes("read-button")) {
-        console.log("CLICK")
+    if (e.target.classList.contains("read-button")) {
+        let bookToggleRead = myLibrary[e.target.parentElement.getAttribute("data")];
+        if (bookToggleRead.read == true) { 
+            e.target.style["background-color"] = "#FF8E8E";
+            e.target.textContent = "Unread";  
+            bookToggleRead.read = false;  
+        }
+        else {
+            e.target.style["background-color"] = "#90FF8E";
+            e.target.textContent = "Read";    
+            bookToggleRead.read = true;
+        }
+
     }
+    if (e.target.classList.contains("remove-button")) {
+        let indexToRemove = e.target.parentElement.getAttribute("data");
+        myLibrary.splice(indexToRemove,1);
+        syncLibraryDOM();
+    }
+    console.log(myLibrary)
 })
 
 

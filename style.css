@@ -86,9 +86,6 @@ body {
     color:black;
     background-color: #FFF8C2;
 }
-.book-card .read-button {
-    background-color: #90FF8E;
-}
 
 #add-button {
     width: 240px;
@@ -159,3 +156,11 @@ body {
     color:black;
     background-color: #FFF8C2;
 }
+
+.book-card .is-read {
+    background-color: #90FF8E;
+}
+.book-card .is-unread {
+    background-color: #FF8E8E;
+}
+
