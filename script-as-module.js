@@ -45,10 +45,10 @@
                     bookCard.classList.add("book-card");
                     bookCard.setAttribute("data",this.library.indexOf(book));
                     bookCard.innerHTML = 
-                        `<p class="title">`+book.title+`</p>
-                        <p class="author">By: `+book.author+`</p>
-                        <p class="pages">`+book.pages+` pages</p>
-                        <button type="button" class="read-button`+((book.read)?` is-read">Read`:` is-unread">Unread`)+`</button>
+                       `<p class="title">${book.title}</p>
+                        <p class="author">By: ${book.author}</p>
+                        <p class="pages">${book.pages} pages</p>
+                        <button type="button" class="read-button${(book.read)?` is-read">Read`:` is-unread">Unread`}</button>
                         <button type="button" class="remove-button">Remove</button>`;
                 this.bookGrid.appendChild(bookCard);    
             }
