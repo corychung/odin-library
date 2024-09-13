@@ -10,25 +10,21 @@
     let library = {
         library:[],
         init() {
-            library.cacheDOM();
-            library.bindEvents();
-            library.render();
+            this.cacheDOM();
+            this.bindEvents();
+            this.render();
         },
         cacheDOM() {
-            this.form = document.querySelector(".add-form")
+            this.addBookForm = document.querySelector(".add-form")
             this.addBookDialog = document.querySelector(".add-book-container")
             this.addBookButton = document.querySelector("#add-button")  
             this.bookGrid = document.querySelector(".book-grid")
         },
-        grabDialogInput() {
-            this.bookName = document.querySelector("#title").value;
-            this.bookAuthor = document.querySelector("#author").value;
-            this.bookPages = document.querySelector("#pages").value;
-            this.bookRead = document.querySelector("#read").checked;
-        },
         bindEvents() {
             this.addBookButton.addEventListener("click", () => this.showDialog());
-            this.form.addEventListener("submit", (event) => this.addBook(event));
+            this.addBookForm.addEventListener("submit", (event) => this.addBook(event));
+            
+            // Read-button and remove-button don't yet exist, so can't place event listeners directly
             this.bookGrid.addEventListener("click", (event) => {
                 if (event.target.classList.contains("read-button")) {
                     this.toggleRead(event);
@@ -53,13 +49,19 @@
                 this.bookGrid.appendChild(bookCard);    
             }
         },
+        getDialogInput() {
+            this.bookName = document.querySelector("#title").value;
+            this.bookAuthor = document.querySelector("#author").value;
+            this.bookPages = document.querySelector("#pages").value;
+            this.bookRead = document.querySelector("#read").checked;
+        },
         addBook(event) {
             event.preventDefault();
-            this.grabDialogInput();
+            this.getDialogInput();
             if (!this.bookName||!this.bookAuthor||!this.bookPages) {return;}
             this.library.push(new Book(this.bookName, this.bookAuthor, this.bookPages, this.bookRead));
             this.addBookDialog.close();
-            this.form.reset();
+            this.addBookForm.reset();
             this.render();
         },
         removeBook(event) {
