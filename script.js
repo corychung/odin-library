@@ -11,7 +11,7 @@ function Book(name, author, pages, read) {
     this.read = read;
 }
 
-function syncLibraryDOM() {
+function render() {
     bookGrid.innerHTML = "";
     let bookCard = "";
     let addBookCard = "";
@@ -45,7 +45,7 @@ form.addEventListener("submit", (event) => {
     let bookToAdd = new Book(bookName, bookAuthor, bookPages, bookRead);
     myLibrary.push(bookToAdd);
     addBookDialog.close();
-    syncLibraryDOM();
+    render();
 })
 
 document.body.addEventListener("click", (e) => {
@@ -66,7 +66,7 @@ document.body.addEventListener("click", (e) => {
     if (e.target.classList.contains("remove-button")) {
         let indexToRemove = e.target.parentElement.getAttribute("data");
         myLibrary.splice(indexToRemove,1);
-        syncLibraryDOM();
+        render();
     }
     console.log(myLibrary)
 })
